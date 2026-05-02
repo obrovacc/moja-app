@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bučice & Kalistenika</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d0d0f;
+  --surface:#161619;
+  --surface2:#1e1e23;
+  --border:rgba(255,255,255,0.07);
+  --text:#f0f0f2;
+  --muted:#6b6b78;
+  --accent:#47ffb0;
+  --accent-dim:rgba(71,255,176,0.11);
+  --orange:#ff8c47;
+  --orange-dim:rgba(255,140,71,0.12);
+  --blue:#47b8ff;
+  --blue-dim:rgba(71,184,255,0.12);
+  --purple:#b47fff;
+  --purple-dim:rgba(180,127,255,0.12);
+  --yellow:#e8ff47;
+  --yellow-dim:rgba(232,255,71,0.1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  font-size:16px;
+  line-height:1.6;
+}
+
+/* HERO */
+.hero{
+  padding:2.5rem 1.25rem 1.6rem;
+  border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;
+  top:-80px;right:-80px;
+  width:260px;height:260px;
+  background:radial-gradient(circle,rgba(71,255,176,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';position:absolute;
+  bottom:-40px;left:-40px;
+  width:180px;height:180px;
+  background:radial-gradient(circle,rgba(255,140,71,0.05) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.5rem;
+}
+.hero-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:clamp(2.2rem,9vw,3.5rem);
+  font-weight:900;line-height:.92;
+  text-transform:uppercase;letter-spacing:-.01em;
+  margin-bottom:.9rem;
+}
+.hero-title span{color:var(--accent)}
+.hero-title .amp{color:var(--orange);font-size:.75em}
+.hero-meta{display:flex;gap:.6rem;flex-wrap:wrap}
+.badge{
+  font-size:11px;font-weight:500;
+  padding:4px 10px;border-radius:20px;
+  border:1px solid var(--border);color:var(--muted);
+}
+.badge.hi{border-color:rgba(71,255,176,0.25);color:var(--accent)}
+
+/* TABS */
+.tabs{
+  display:flex;overflow-x:auto;
+  border-bottom:1px solid var(--border);
+  scrollbar-width:none;
+  position:sticky;top:0;
+  background:var(--bg);z-index:10;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{
+  flex-shrink:0;
+  padding:.85rem 1.35rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:14px;font-weight:600;
+  letter-spacing:.05em;text-transform:uppercase;
+  color:var(--muted);background:none;border:none;
+  border-bottom:2px solid transparent;
+  cursor:pointer;transition:color .15s,border-color .15s;
+}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* PAGES */
+.page{display:none;padding:1rem 1.25rem 6rem}
+.page.active{display:block}
+
+/* SECTION LABEL */
+.blok-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:700;
+  letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);
+  margin:1.6rem 0 .75rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.blok-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* CARDS */
+.card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1rem 1.15rem;
+  margin-bottom:.65rem;
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;border-radius:3px 0 0 3px;
+}
+.card.bucice::before{background:var(--orange)}
+.card.kali::before{background:var(--accent)}
+.card.combo::before{background:var(--purple)}
+.card.cardio::before{background:var(--blue)}
+.card.fin::before{background:var(--yellow)}
+
+.card-top{
+  display:flex;align-items:flex-start;
+  justify-content:space-between;gap:.5rem;
+  margin-bottom:.65rem;
+}
+.card-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.18rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.02em;
+  line-height:1.15;flex:1;
+}
+.eq-tag{
+  font-size:10px;font-weight:600;
+  padding:3px 9px;border-radius:20px;
+  white-space:nowrap;flex-shrink:0;
+  letter-spacing:.04em;text-transform:uppercase;
+}
+.eq-bucice{background:var(--orange-dim);color:var(--orange)}
+.eq-kali{background:var(--accent-dim);color:var(--accent)}
+.eq-combo{background:var(--purple-dim);color:var(--purple)}
+.eq-cardio{background:var(--blue-dim);color:var(--blue)}
+.eq-fin{background:var(--yellow-dim);color:var(--yellow)}
+
+.stats{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.7rem}
+.stat{
+  background:var(--surface2);
+  border-radius:8px;padding:4px 9px;
+  font-size:12px;color:var(--muted);
+}
+.stat b{color:var(--text);font-weight:500}
+
+.card-desc{
+  font-size:13.5px;
+  color:rgba(240,240,242,0.58);
+  line-height:1.6;
+}
+
+/* SUPERSET BRACKET */
+.superset{
+  border:1px solid rgba(180,127,255,0.2);
+  border-radius:18px;
+  padding:.65rem .65rem .65rem .9rem;
+  margin-bottom:.65rem;
+  position:relative;
+}
+.superset::before{
+  content:'SUPERSET';
+  position:absolute;top:-9px;left:14px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;font-weight:700;letter-spacing:.1em;
+  background:var(--bg);
+  padding:0 6px;
+  color:var(--purple);
+}
+.superset .card{margin-bottom:.5rem}
+.superset .card:last-child{margin-bottom:0}
+
+/* ALERTS */
+.alert{
+  border-radius:12px;padding:.85rem 1rem;
+  margin-bottom:.65rem;
+  font-size:13.5px;line-height:1.6;
+}
+.alert.warn{
+  background:var(--orange-dim);
+  border:1px solid rgba(255,140,71,0.2);
+  color:rgba(255,140,71,0.9);
+}
+.alert.info{
+  background:var(--blue-dim);
+  border:1px solid rgba(71,184,255,0.15);
+  color:rgba(71,184,255,0.85);
+}
+.alert.tip{
+  background:var(--accent-dim);
+  border:1px solid rgba(71,255,176,0.15);
+  color:rgba(71,255,176,0.85);
+}
+
+/* TIMER */
+.timer-wrap{
+  display:flex;flex-direction:column;
+  align-items:center;padding-top:1.5rem;
+}
+.timer-svg{transform:rotate(-90deg)}
+.timer-track{fill:none;stroke:var(--surface2);stroke-width:8}
+.timer-prog{
+  fill:none;stroke:var(--accent);stroke-width:8;
+  stroke-linecap:round;
+  transition:stroke-dashoffset .9s linear;
+}
+.timer-ring-wrap{position:relative;margin-bottom:1.5rem}
+.timer-center{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);text-align:center;
+}
+.timer-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:3.3rem;font-weight:900;
+  color:var(--text);line-height:1;
+}
+.timer-sub{
+  font-size:11px;color:var(--muted);
+  margin-top:4px;font-weight:500;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.preset-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:.5rem;width:100%;max-width:320px;
+  margin-bottom:1.25rem;
+}
+.preset-btn{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;padding:.75rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.95rem;font-weight:600;
+  letter-spacing:.03em;text-transform:uppercase;
+  color:var(--text);cursor:pointer;
+  transition:background .12s,border-color .12s;
+}
+.preset-btn:active{background:var(--surface2)}
+.preset-btn.sel{border-color:var(--accent);color:var(--accent)}
+.ctrl-row{
+  display:flex;gap:.75rem;
+  width:100%;max-width:320px;
+}
+.ctrl-btn{
+  flex:1;padding:.95rem;
+  border-radius:12px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.05rem;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;
+  cursor:pointer;border:none;
+  transition:opacity .12s,transform .08s;
+}
+.ctrl-btn:active{opacity:.8;transform:scale(.97)}
+.ctrl-start{background:var(--accent);color:#0d0d0f}
+.ctrl-reset{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.custom-row{
+  display:flex;align-items:center;gap:.5rem;
+  margin-top:.85rem;width:100%;max-width:320px;
+}
+.custom-row input{
+  flex:1;background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:10px;padding:.7rem .9rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.1rem;font-weight:600;
+  color:var(--text);text-align:center;
+  -moz-appearance:textfield;
+}
+.custom-row input::-webkit-inner-spin-button,
+.custom-row input::-webkit-outer-spin-button{-webkit-appearance:none}
+.custom-row input:focus{outline:none;border-color:var(--accent)}
+.custom-row button{
+  background:var(--surface2);
+  border:1px solid var(--border);
+  border-radius:10px;padding:.7rem 1rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.9rem;font-weight:600;
+  color:var(--text);cursor:pointer;white-space:nowrap;
+}
+
+/* SAVETI */
+.savet-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:14px;padding:1rem 1.15rem;
+  margin-bottom:.65rem;
+}
+.savet-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:.04em;
+  color:var(--accent);margin-bottom:.35rem;
+}
+.savet-text{
+  font-size:13.5px;
+  color:rgba(240,240,242,0.62);
+  line-height:1.6;
+}
+
+/* PROGRAM SELECTOR */
+.prog-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:.5rem;margin-bottom:1rem;
+}
+.prog-btn{
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:12px;padding:.8rem .75rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.95rem;font-weight:700;
+  letter-spacing:.03em;text-transform:uppercase;
+  color:var(--muted);cursor:pointer;
+  transition:all .15s;text-align:center;
+  line-height:1.2;
+}
+.prog-btn.active-prog{
+  border-color:var(--accent);
+  color:var(--accent);
+  background:var(--accent-dim);
+}
+.program{display:none}
+.program.active-prog{display:block}
+
+@supports(padding-bottom:env(safe-area-inset-bottom)){
+  .page{padding-bottom:calc(5rem + env(safe-area-inset-bottom))}
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Trening napolju</div>
+  <h1 class="hero-title">Bučice<br><span class="amp">&</span><br><span>Kalistenika</span></h1>
+  <div class="hero-meta">
+    <span class="badge hi">Napolju</span>
+    <span class="badge">~55 min</span>
+    <span class="badge">Bučice · Bodyweight</span>
+    <span class="badge">Intenzivno</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('trening',this)">Trening</button>
+  <button class="tab-btn" onclick="showTab('tajmer',this)">Tajmer</button>
+  <button class="tab-btn" onclick="showTab('saveti',this)">Saveti</button>
+</div>
+
+<!-- TRENING -->
+<div id="trening" class="page active">
+
+  <div class="alert warn" style="margin-top:.75rem">
+    ⚠ Zagreji se 5 min pre: jumping jacks, kruženje ramenima, leg swings, skvoteri bez tega × 10.
+  </div>
+
+  <div class="prog-grid">
+    <button class="prog-btn active-prog" onclick="showProg('snaga',this)">Snaga &amp; Masa</button>
+    <button class="prog-btn" onclick="showProg('hiit',this)">HIIT &amp; Izdržljivost</button>
+  </div>
+
+  <!-- PROGRAM: SNAGA -->
+  <div id="snaga" class="program active-prog">
+
+    <div class="blok-label">Blok A — Grudi &amp; Triceps</div>
+
+    <div class="superset">
+      <div class="card bucice">
+        <div class="card-top">
+          <div class="card-name">Dumbbell press (na podu)</div>
+          <span class="eq-tag eq-bucice">bučice</span>
+        </div>
+        <div class="stats">
+          <span class="stat"><b>4</b> serije</span>
+          <span class="stat"><b>10–12</b> ponavljanja</span>
+          <span class="stat">odmor <b>nakon SS</b></span>
+        </div>
+        <div class="card-desc">Lezi na leđa na ravnoj površini. Bučice u visini grudi, laktovi pod 45°. Potisni gore do ispružanja, sporo vrati. Floor press štiti ramena bolje od klupe.</div>
+      </div>
+      <div class="card kali">
+        <div class="card-top">
+          <div class="card-name">Sklekovi (uske ruke)</div>
+          <span class="eq-tag eq-kali">kalistenika</span>
+        </div>
+        <div class="stats">
+          <span class="stat"><b>do otkaza</b></span>
+          <span class="stat">odmor <b>75s posle oba</b></span>
+        </div>
+        <div class="card-desc">Odmah posle press-a. Ruke blizu tela — naglasak na triceps. Telo ravno kao daska, kontrolisano dole.</div>
+      </div>
+    </div>
+
+    <div class="blok-label">Blok B — Leđa &amp; Biceps</div>
+
+    <div class="superset">
+      <div class="card bucice">
+        <div class="card-top">
+          <div class="card-name">Dumbbell row (jednoručni)</div>
+          <span class="eq-tag eq-bucice">bučice</span>
+        </div>
+        <div class="stats">
+          <span class="stat"><b>4</b> serije</span>
+          <span class="stat"><b>10–12</b>/strana</span>
+          <span class="stat">odmor <b>nakon SS</b></span>
+        </div>
+        <div class="card-desc">Nađi klupu, ogradu ili stepenicu za oslonac. Kolenom i rukom oslonjen, slobodna ruka vuče bučicu do kukova. Lakat ide nazad i gore — ne u stranu.</div>
+      </div>
+      <div class="card bucice">
+        <div class="card-top">
+          <div class="card-name">Hammer curl</div>
+          <span class="eq-tag eq-bucice">bučice</span>
+        </div>
+        <div class="stats">
+          <span class="stat"><b>3</b> serije</span>
+          <span class="stat"><b>12</b> ponavljanja</span>
+          <span class="stat">odmor <b>60s posle oba</b></span>
+        </div>
+        <div class="card-desc">Stojeći, bučice sa strane — palac gore. Naizmenično ili oba odjednom. Laktovi zaključani uz telo, nema zanjihavanja gornjeg dela tela.</div>
+      </div>
+    </div>
+
+    <div class="blok-label">Blok C — Ramena</div>
+
+    <div class="card bucice">
+      <div class="card-top">
+        <div class="card-name">Dumbbell shoulder press</div>
+        <span class="eq-tag eq-bucice">bučice</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>4</b> serije</span>
+        <span class="stat"><b>10–12</b> ponavljanja</span>
+        <span class="stat">odmor <b>75s</b></span>
+      </div>
+      <div class="card-desc">Sedi ili stoji. Bučice u visini ušiju, laktovi pod 90°. Potisni direktno gore do skoro potpunog ispružanja. Trbuh zaključan, ne izbacuj kukove.</div>
+    </div>
+
+    <div class="card bucice">
+      <div class="card-top">
+        <div class="card-name">Lateral raise</div>
+        <span class="eq-tag eq-bucice">bučice</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>3</b> serije</span>
+        <span class="stat"><b>15</b> ponavljanja</span>
+        <span class="stat">odmor <b>45s</b></span>
+      </div>
+      <div class="card-desc">Lagane bučice — ovo nije vežba za ego. Podizaj ruke do visine ramena, lagano savijen lakat. Sporo spuštanje je 50% vežbe.</div>
+    </div>
+
+    <div class="blok-label">Blok D — Noge</div>
+
+    <div class="superset">
+      <div class="card combo">
+        <div class="card-top">
+          <div class="card-name">Goblet squat</div>
+          <span class="eq-tag eq-combo">bučice + BW</span>
+        </div>
+        <div class="stats">
+          <span class="stat"><b>4</b> serije</span>
+          <span class="stat"><b>12–15</b> ponavljanja</span>
+          <span class="stat">odmor <b>nakon SS</b></span>
+        </div>
+        <div class="card-desc">Drži jednu tešku bučicu vertikalno ispred grudi. Sedi duboko u skvoter — kolena prate prste stopala. Peta na podu tokom celog pokreta.</div>
+      </div>
+      <div class="card kali">
+        <div class="card-top">
+          <div class="card-name">Jump squat</div>
+          <span class="eq-tag eq-kali">kalistenika</span>
+        </div>
+        <div class="stats">
+          <span class="stat"><b>10</b> eksplozivnih</span>
+          <span class="stat">odmor <b>90s posle oba</b></span>
+        </div>
+        <div class="card-desc">Odmah posle goblet squat-a — bez tega. Siđi u polu-skvoter, eksplozivno skoči gore, meko sleti. Aktivira brza mišićna vlakna.</div>
+      </div>
+    </div>
+
+    <div class="card bucice">
+      <div class="card-top">
+        <div class="card-name">Dumbbell lunge (naizmenični)</div>
+        <span class="eq-tag eq-bucice">bučice</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>3</b> serije</span>
+        <span class="stat"><b>20</b> (10/noga)</span>
+        <span class="stat">odmor <b>75s</b></span>
+      </div>
+      <div class="card-desc">Bučice u rukama, iskoraci napred naizmenično. Koleno zadnje noge skoro dodiruje pod. Torzo uspravno, ne nagni se napred.</div>
+    </div>
+
+    <div class="blok-label">Finisher — 3 runde</div>
+
+    <div class="alert info">
+      3 vežbe, 40s rad / 20s odmor, bez pauze između vežbi. Odmor 60s između rundi.
+    </div>
+
+    <div class="card fin">
+      <div class="card-top">
+        <div class="card-name">Burpee</div>
+        <span class="eq-tag eq-fin">finisher</span>
+      </div>
+      <div class="stats"><span class="stat"><b>40s</b> max tempo</span></div>
+      <div class="card-desc">Klasični burpee — dole, skleka, skok gore. Bez pauze, tempo je sve.</div>
+    </div>
+
+    <div class="card fin">
+      <div class="card-top">
+        <div class="card-name">Dumbbell thruster</div>
+        <span class="eq-tag eq-fin">finisher</span>
+      </div>
+      <div class="stats"><span class="stat"><b>40s</b> max tempo</span></div>
+      <div class="card-desc">Skvoter + shoulder press u jednom pokretu. Eksplozivno iz dna skvotera — momentum pomaže pritisku gore. Srednje teške bučice.</div>
+    </div>
+
+    <div class="card fin">
+      <div class="card-top">
+        <div class="card-name">Mountain climbers</div>
+        <span class="eq-tag eq-fin">finisher</span>
+      </div>
+      <div class="stats"><span class="stat"><b>40s</b> max tempo</span></div>
+      <div class="card-desc">Plank pozicija, naizmenično vuci kolena ka grudima što brže možeš. Core zaključan, kukovi ne idu gore.</div>
+    </div>
+
+  </div>
+
+  <!-- PROGRAM: HIIT -->
+  <div id="hiit" class="program">
+
+    <div class="alert tip" style="margin-top:.25rem">
+      Format: 40s rad / 20s odmor. Svaki krug = 6 vežbi. Uradi 4 kruga. Ukupno ~45 min.
+    </div>
+
+    <div class="blok-label">Krug — sve vežbe zaredom</div>
+
+    <div class="card kali">
+      <div class="card-top">
+        <div class="card-name">Sklekovi eksplozivni</div>
+        <span class="eq-tag eq-kali">kalistenika</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>40s</b> rad</span>
+        <span class="stat"><b>20s</b> odmor</span>
+      </div>
+      <div class="card-desc">Siđi kontrolisano, potisni eksplozivno gore — ruke da se odlepe od poda ako možeš. Ako ne možeš, samo ubrzaj tempo gore. Grudi, ramena, triceps.</div>
+    </div>
+
+    <div class="card bucice">
+      <div class="card-top">
+        <div class="card-name">Dumbbell swing (kettlebell stil)</div>
+        <span class="eq-tag eq-bucice">bučice</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>40s</b> rad</span>
+        <span class="stat"><b>20s</b> odmor</span>
+      </div>
+      <div class="card-desc">Drži jednu bučicu s obe ruke za jedan kraj. Lagani predklon, bučica između nogu — eksplozivno ispravi kukove, bučica ide do visine ramena. Snaga dolazi iz zadnjice, ne ruku.</div>
+    </div>
+
+    <div class="card kali">
+      <div class="card-top">
+        <div class="card-name">Jump lunge</div>
+        <span class="eq-tag eq-kali">kalistenika</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>40s</b> rad</span>
+        <span class="stat"><b>20s</b> odmor</span>
+      </div>
+      <div class="card-desc">Iskorak, pa eksplozivni skok i zamena nogu u vazduhu. Meko sleti direktno u sledeći iskorak. Ubija kvadricepse i zadnjicu za 20 sekundi.</div>
+    </div>
+
+    <div class="card bucice">
+      <div class="card-top">
+        <div class="card-name">Renegade row</div>
+        <span class="eq-tag eq-bucice">bučice</span>
+      </div>
+      <div class="stats">
+        <span class="stat"><b>40s</b> rad</span>
+        <span class="stat"><b>20s</b> odmor
